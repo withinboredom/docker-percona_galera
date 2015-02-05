@@ -21,6 +21,8 @@ RUN \
   lsb-release \
   locales \
   socat \
+  curl \
+  unzip \
   --no-install-recommends
 
 # generate a local to suppress warnings
@@ -40,13 +42,17 @@ RUN \
 
 RUN rm -rf /var/lib/mysql/*
 
+mkdir -p /var/lib/consul /usr/share/consul /etc/consul/conf.d
+curl -OL https://dl.bintray.com/mitchellh/consul/0.3.1_linux_amd64.zip && unzip 0.3.1_linux_amd64.zip && mv consul /usr/local/bin/consul
+curl -OL https://dl.bintray.com/mitchellh/consul/0.3.1_web_ui.zip && unzip 0.3.1_web_ui.zip && mv dist /usr/share/consul/ui
+
 # download latest stable etcdctl
-ADD https://s3-us-west-2.amazonaws.com/opdemand/etcdctl-v0.4.5 /usr/local/bin/etcdctl
-RUN chmod +x /usr/local/bin/etcdctl
+#ADD https://s3-us-west-2.amazonaws.com/opdemand/etcdctl-v0.4.5 /usr/local/bin/etcdctl
+#RUN chmod +x /usr/local/bin/etcdctl
 
 # install confd
-ADD https://s3-us-west-2.amazonaws.com/opdemand/confd-v0.5.0-json /usr/local/bin/confd
-RUN chmod +x /usr/local/bin/confd
+#ADD https://s3-us-west-2.amazonaws.com/opdemand/confd-v0.5.0-json /usr/local/bin/confd
+#RUN chmod +x /usr/local/bin/confd
 
 # Define mountable directories.
 VOLUME ["/var/lib/mysql"]
