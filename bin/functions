@@ -63,8 +63,15 @@ function mysql_creds() {
 }
 
 function configure_consul() {
-  echo '{"service": {"name": "galera", "tags": ["mysql"], "port": 3306}}' > /etc/consul/conf.d/galera.json
-  consul agent -node $MESOS_TASK_ID -data-dir=/tmp/consul --join=$HOST -config-dir /etc/consul/conf.d agent &
+  cp conf.d/galera.json /etc/consul/conf.d
+  consul agent \
+  -node $MESOS_TASK_ID \
+  -data-dir=/tmp/consul \
+  -join=$HOST \
+  -config-dir /etc/consul/conf.d \
+  -syslog \
+  -bind $HOST \
+  -pid-file /tmp/consul-pid &
   sleep 60 # wait for consul to come online
 }
 
