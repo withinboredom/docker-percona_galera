@@ -24,6 +24,7 @@ PROTO=${PROTO:-tcp}
 ETCD_HOST=${ETCD_HOST:-$HOST}
 
 if [[ -z $HOST ]]; then
+  configure_consul
   echo '==> $HOST not set.  booting mysql without clustering.'
   init_database
   echo "==> database running..."

@@ -62,6 +62,12 @@ function mysql_creds() {
   mysql -e 'FLUSH PRIVILEGES;'
 }
 
+function configure_consul() {
+  echo '{"service": {"name": "galera", "tags": ["mysql"], "port": 3306}}' > /etc/consul.d/galera.json
+  consul agent -node $MARATHON_APP_ID -data-dir=/tmp/consul --join=$HOST -config-dir /etc/consul.d agent &
+  sleep 5 # wait for consul to come online
+}
+
 function configure_etcd() {
   export ETCD_PORT=${ETCD_PORT:-4001}
   export ETCD="$ETCD_HOST:$ETCD_PORT"
