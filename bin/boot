@@ -34,33 +34,33 @@ if [[ -z $HOST ]]; then
   exit $?
 fi
 
-configure_etcd
+configure_consul
 
-etcd_set_default engine percona
-etcd_set_default credentials/adminUser ${MYSQL_USER}
-etcd_set_default credentials/adminPass ${MYSQL_PASS}
-etcd_set_default credentials/repUser ${REP_USER}
-etcd_set_default credentials/repPass ${REP_PASS}
-etcd_set_default host $HOST
-etcd_set_default port $PORT
+#etcd_set_default engine percona
+#etcd_set_default credentials/adminUser ${MYSQL_USER}
+#etcd_set_default credentials/adminPass ${MYSQL_PASS}
+#etcd_set_default credentials/repUser ${REP_USER}
+#etcd_set_default credentials/repPass ${REP_PASS}
+#etcd_set_default host $HOST
+#etcd_set_default port $PORT
 
 if [[ ! -z $CLUSTER ]]; then
-  etcd_set_default cluster/name ${CLUSTER}
-  etcd_make_directory cluster/mysqlNodes
-  etcd_make_directory cluster/galeraEndpoints
+#  etcd_set_default cluster/name ${CLUSTER}
+#  etcd_make_directory cluster/mysqlNodes
+#  etcd_make_directory cluster/galeraEndpoints
 fi
 
 # wait for confd to run once and install initial templates
-until confd -onetime -node $ETCD -config-file /app/confd.toml; do
-  echo "echo ==> database: waiting for confd to write initial templates..."
-  sleep $(($ETCD_TTL/2))  # sleep for half the TTL
-done
+#until confd -onetime -node $ETCD -config-file /app/confd.toml; do
+#  echo "echo ==> database: waiting for confd to write initial templates..."
+#  sleep $(($ETCD_TTL/2))  # sleep for half the TTL
+#done
 
 # initialize data volume
 init_database
 
 WSREP_OPTIONS="--wsrep_node_address=$HOST $DB_OPTIONS"
-cluster_members
+#cluster_members
 
 echo Starting MySQL for reals
 

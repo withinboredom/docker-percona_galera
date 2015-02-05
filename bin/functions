@@ -63,9 +63,9 @@ function mysql_creds() {
 }
 
 function configure_consul() {
-  echo '{"service": {"name": "galera", "tags": ["mysql"], "port": 3306}}' > /etc/consul.d/galera.json
-  consul agent -node $MARATHON_APP_ID -data-dir=/tmp/consul --join=$HOST -config-dir /etc/consul.d agent &
-  sleep 5 # wait for consul to come online
+  echo '{"service": {"name": "galera", "tags": ["mysql"], "port": 3306}}' > /etc/consul/conf.d/galera.json
+  consul agent -node $MESOS_TASK_ID -data-dir=/tmp/consul --join=$HOST -config-dir /etc/consul/conf.d agent &
+  sleep 60 # wait for consul to come online
 }
 
 function configure_etcd() {
