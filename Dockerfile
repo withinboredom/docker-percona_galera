@@ -42,9 +42,12 @@ RUN \
 
 RUN rm -rf /var/lib/mysql/*
 
-mkdir -p /var/lib/consul /usr/share/consul /etc/consul/conf.d
-curl -OL https://dl.bintray.com/mitchellh/consul/0.3.1_linux_amd64.zip && unzip 0.3.1_linux_amd64.zip && mv consul /usr/local/bin/consul
-curl -OL https://dl.bintray.com/mitchellh/consul/0.3.1_web_ui.zip && unzip 0.3.1_web_ui.zip && mv dist /usr/share/consul/ui
+RUN \
+  mkdir -p /var/lib/consul /usr/share/consul /etc/consul/conf.d
+RUN \ 
+  curl -OL https://dl.bintray.com/mitchellh/consul/0.4.1_linux_amd64.zip && \
+  unzip 0.4.1_linux_amd64.zip && \
+  mv consul /usr/local/bin/consul
 
 # download latest stable etcdctl
 #ADD https://s3-us-west-2.amazonaws.com/opdemand/etcdctl-v0.4.5 /usr/local/bin/etcdctl
