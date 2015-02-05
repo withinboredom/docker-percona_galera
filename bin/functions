@@ -63,7 +63,7 @@ function mysql_creds() {
 }
 
 function configure_consul() {
-  cp /app/conf.d/galera.json /etc/consul/conf.d
+  echo '{ "leave_on_terminate": true, "service": { "name": "galera", "tags": ["mysql"], "port": 3306 } }' > /etc/consul/conf.d/galera.json
   consul agent \
   -node $MESOS_TASK_ID \
   -data-dir=/tmp/consul \
