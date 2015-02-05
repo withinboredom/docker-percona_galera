@@ -63,7 +63,7 @@ function mysql_creds() {
 }
 
 function configure_consul() {
-  cp conf.d/galera.json /etc/consul/conf.d
+  cp /app/conf.d/galera.json /etc/consul/conf.d
   consul agent \
   -node $MESOS_TASK_ID \
   -data-dir=/tmp/consul \
